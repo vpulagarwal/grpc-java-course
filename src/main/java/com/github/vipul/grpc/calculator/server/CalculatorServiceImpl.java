@@ -1,8 +1,6 @@
 package com.github.vipul.grpc.calculator.server;
 
-import com.proto.calculator.CalculatorServiceGrpc;
-import com.proto.calculator.SumRequest;
-import com.proto.calculator.SumResponse;
+import com.proto.calculator.*;
 import io.grpc.stub.StreamObserver;
 
 public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {
@@ -19,6 +17,26 @@ public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServi
         // Send the response
         responseObserver.onNext(response);
         // Complete the RPC call
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void primeDecompositionService(PrimeDecompositionRequest request, StreamObserver<PrimeDecompositionResponse> responseObserver) {
+        int k = 2;
+        Long number = request.getNumber();
+
+        while (number>1){
+            if (number % k == 0){
+                number = number/ k;
+                PrimeDecompositionResponse response = PrimeDecompositionResponse.newBuilder()
+                        .setPrimeFactor(k)
+                        .build();
+                responseObserver.onNext(response);
+            }else{
+                k = k+1;
+                //System.out.println(k);
+            }
+        }
         responseObserver.onCompleted();
     }
 }
