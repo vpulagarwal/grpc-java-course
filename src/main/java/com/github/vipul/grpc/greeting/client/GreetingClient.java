@@ -10,7 +10,7 @@ import io.grpc.ManagedChannelBuilder;
 
 public class GreetingClient {
     public static void main(String[] args) {
-        System.out.println("Hello from GRPC client");
+        System.out.println("Hello from Greeting client");
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50051 )
                 .usePlaintext()   // To avoid SSL Error (io.grpc.netty.shaded.io.netty.handler.ssl.NotSslRecordException: not an SSL/TLS record:)

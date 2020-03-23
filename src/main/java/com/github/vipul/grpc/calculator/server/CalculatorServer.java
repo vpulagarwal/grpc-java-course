@@ -1,24 +1,25 @@
-package com.github.vipul.grpc.greeting.server;
+package com.github.vipul.grpc.calculator.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 import java.io.IOException;
 
-public class GreetingServer {
+public class CalculatorServer {
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println("Hello Greeting Server Started");
+        System.out.println("Hello from Calculator server");
 
         Server server = ServerBuilder.forPort(50051)
-                .addService(new GreetServiceImpl())
+                .addService(new CalculatorServiceImpl())
                 .build();
         server.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("Received shutdown request");
+            System.out.println("received shut down request ");
             server.shutdown();
-            System.out.println("Successfully stopped the server");
+            System.out.println("Server stopped successfully");
         }));
+
         server.awaitTermination();
     }
 }
