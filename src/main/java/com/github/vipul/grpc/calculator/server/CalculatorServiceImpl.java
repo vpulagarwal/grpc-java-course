@@ -1,6 +1,7 @@
 package com.github.vipul.grpc.calculator.server;
 
 import com.proto.calculator.*;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {
@@ -112,5 +113,23 @@ public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServi
             }
         };
         return requestObserver;
+    }
+
+    @Override
+    public void squareRoot(SquareRootRequest request, StreamObserver<SquareRootResponse> responseObserver) {
+        int number = request.getNumber();
+        if(number >=0 ){
+            double numberRoot = Math.sqrt((double) number);
+            responseObserver.onNext(SquareRootResponse.newBuilder()
+                    .setNumberRoot(numberRoot)
+                    .build());
+        }else {
+            // We construct the exception
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription("The number being sent is negative")
+                    .augmentDescription("Number : "+number)
+                    .asRuntimeException());
+        }
+
     }
 }
