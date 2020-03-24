@@ -22,10 +22,21 @@ message PrimeDecompositionResponse{
     int64 prime_factor = 1;
 }
 
+message ComputeAverageRequest{
+    int32 number = 1;
+}
+
+message ComputeAverageResponse{
+    double compute_average =1;
+}
+
 service CalculatorService{
     // Sum service
     rpc SumService(SumRequest) returns (SumResponse) {};
 
     // PrimeDecomposition Service
     rpc PrimeDecompositionService (PrimeDecompositionRequest) returns (stream PrimeDecompositionResponse) {};
+
+    // ComputeAverage Service
+    rpc ComputeAverage( stream ComputeAverageRequest) returns (ComputeAverageResponse) {};
 }
