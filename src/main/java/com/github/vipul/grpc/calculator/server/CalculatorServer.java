@@ -2,6 +2,7 @@ package com.github.vipul.grpc.calculator.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.protobuf.services.ProtoReflectionService;
 
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ public class CalculatorServer {
 
         Server server = ServerBuilder.forPort(50051)
                 .addService(new CalculatorServiceImpl())
+                .addService(ProtoReflectionService.newInstance()) // For reflection
                 .build();
         server.start();
 
