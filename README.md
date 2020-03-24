@@ -1,5 +1,12 @@
 # gRPC Java
 
+## Links
+- gRPC community: https://grpc.io/community/ 
+- Find extra awesome resources at this link: https://github.com/grpc-ecosystem/awesome-grpc
+- Java projects and code:
+    - Great collection of projects: https://github.com/saturnism/grpc-java-by-example
+    - Additional plugins: https://github.com/salesforce/grpc-java-contrib
+- Read the documentation https://grpc.io/docs/guides/
 
 ## Troubleshooting
 ### Evans CLI
