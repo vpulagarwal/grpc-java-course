@@ -3,30 +3,39 @@ package com.github.vipul.grpc.greeting.client;
 import com.proto.dummy.DummyServiceGrpc;
 import com.proto.greet.*;
 import io.grpc.*;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import javax.net.ssl.SSLException;
+import java.io.File;
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class GreetingClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SSLException {
         System.out.println("Hello from Greeting client");
         GreetingClient main = new GreetingClient();
         main.run();
     }
-    private void run(){
+    private void run() throws SSLException {
         System.out.println("Opening up channel");
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50051 )
                 .usePlaintext()   // To avoid SSL Error (io.grpc.netty.shaded.io.netty.handler.ssl.NotSslRecordException: not an SSL/TLS record:)
                 .build();
 
-        //doUnaryCall(channel);
+        ManagedChannel securedChannel = NettyChannelBuilder.forAddress("localhost", 50051)
+                .sslContext(GrpcSslContexts.forClient().trustManager(new File("ssl/ca.crt")).build())
+                .build();
+        // doUnaryCall(channel);
         //doServerStreamingCall(channel);
         //doClientStreamingCall(channel);
         //doBiDiStreamingCall(channel);
-        doUnaryCallWithDeadline(channel);
+        //doUnaryCallWithDeadline(channel);
+
+        doUnaryCall(securedChannel);
         System.out.println("Shutting down channel");
         channel.shutdown();
     }
